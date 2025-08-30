@@ -24,10 +24,7 @@ services:
 
   medusa:
     build: ./brm-store
-<<<<<<< HEAD
-=======
     image: medusa:v2
->>>>>>> b0d2d63 (update docker-compose.yml add image version biar ga ketumpuk tiap run)
     container_name: brm_medusa
     environment:
       - DATABASE_URL=postgres://brm_user:brm_password@postgres:5432/brm_store
@@ -51,10 +48,7 @@ services:
 
   medusa-frontend:
     build: ./brm-store-storefront
-<<<<<<< HEAD
-=======
     image: medusa-frontend:v2
->>>>>>> b0d2d63 (update docker-compose.yml add image version biar ga ketumpuk tiap run)
     container_name: brm_medusa_frontend
     environment:
       - REACT_APP_MEDUSA_BACKEND_URL=http://medusa:9000
