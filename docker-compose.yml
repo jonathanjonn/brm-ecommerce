@@ -1,0 +1,71 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: brm_postgres
+    environment:
+      POSTGRES_USER: brm_user
+      POSTGRES_PASSWORD: brm_password
+      POSTGRES_DB: brm_store
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - brm_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: brm_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - brm_network
+
+  medusa:
+    build: ./brm-store
+    container_name: brm_medusa
+    environment:
+      - DATABASE_URL=postgres://brm_user:brm_password@postgres:5432/brm_store
+      - REDIS_URL=redis://redis:6379
+      - ADMIN_CORS=*
+      - STORE_CORS=*
+      - NODE_ENV=development
+    env_file:
+      - ./brm-store/.env
+    volumes:
+      - ./brm-store:/app
+      - /app/node_modules
+
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - brm_network
+
+  medusa-frontend:
+    build: ./brm-store-storefront
+    container_name: brm_medusa_frontend
+    environment:
+      - REACT_APP_MEDUSA_BACKEND_URL=http://medusa:9000
+      - NODE_ENV=development
+    env_file:
+      - ./brm-store-storefront/.env.local
+    volumes:
+      - ./brm-store-storefront:/app
+      - /app/node_modules
+    ports:
+      - "8000:8000"
+    depends_on:
+      - medusa
+    networks:
+      - brm_network
+
+volumes:
+  postgres_data:
+
+networks:
+  brm_network:
+    driver: bridge
