@@ -1,5 +1,5 @@
 import { login } from "@lib/data/customer"
-import { LOGIN_VIEW } from "@modules/account/templates/login-template"
+import { LOGIN_VIEW } from "@modules/account/templates/otp-login-template"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import Input from "@modules/common/components/input"
@@ -46,6 +46,21 @@ const Login = ({ setCurrentView }: Props) => {
           Sign in
         </SubmitButton>
       </form>
+      <div className="mt-6 text-center">
+        <p className="text-small-regular text-ui-fg-muted mb-4">
+          Atau masuk dengan cara lain
+        </p>
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => setCurrentView(LOGIN_VIEW.OTP_LOGIN)}
+            className="w-full py-2 px-4 border border-ui-border-base rounded-lg text-small-regular hover:bg-ui-bg-subtle transition-colors"
+            data-testid="otp-login-button"
+          >
+            Masuk dengan WhatsApp
+          </button>
+        </div>
+      </div>
+
       <span className="text-center text-ui-fg-base text-small-regular mt-6">
         Not a member?{" "}
         <button

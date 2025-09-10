@@ -37,7 +37,8 @@ export const retrieveCustomer =
         },
         headers,
         next,
-        cache: "force-cache",
+        // Changed to no-cache untuk real-time profile updates
+        cache: "no-cache",
       })
       .then(({ customer }) => customer)
       .catch(() => null)

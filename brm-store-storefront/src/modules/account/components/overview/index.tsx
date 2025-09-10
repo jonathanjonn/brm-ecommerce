@@ -23,9 +23,9 @@ const Overview = ({ customer, orders }: OverviewProps) => {
             <span
               className="font-semibold"
               data-testid="customer-email"
-              data-value={customer?.email}
+              data-value={customer?.email || customer?.phone}
             >
-              {customer?.email}
+              {customer?.email || customer?.phone}
             </span>
           </span>
         </div>

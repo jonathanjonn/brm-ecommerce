@@ -2,10 +2,9 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-
-import Register from "@modules/account/components/register"
-import Login from "@modules/account/components/login"
 import OtpLogin from "@modules/account/components/otp-login"
+import Login from "@modules/account/components/login"
+import Register from "@modules/account/components/register"
 
 export enum LOGIN_VIEW {
   SIGN_IN = "sign-in",
@@ -13,16 +12,13 @@ export enum LOGIN_VIEW {
   OTP_LOGIN = "otp-login",
 }
 
-const LoginTemplate = () => {
-  const [currentView, setCurrentView] = useState(LOGIN_VIEW.SIGN_IN)
+const OtpLoginTemplate = () => {
+  const [currentView, setCurrentView] = useState(LOGIN_VIEW.OTP_LOGIN)
   const router = useRouter()
 
   const handleOtpSuccess = () => {
-    console.log("OTP login successful, redirecting to account...")
-    // Force full page reload to ensure server-side auth is checked
-    setTimeout(() => {
-      window.location.href = window.location.origin + "/account"
-    }, 1000)
+    // Redirect to account page or home page after successful login
+    router.push("/account")
   }
 
   return (
@@ -66,4 +62,4 @@ const LoginTemplate = () => {
   )
 }
 
-export default LoginTemplate
+export default OtpLoginTemplate
