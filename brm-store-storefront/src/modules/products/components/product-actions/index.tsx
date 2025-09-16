@@ -10,6 +10,7 @@ import { isEqual } from "lodash"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import ProductPrice from "../product-price"
+import SKUDisplay from "../sku-display"
 import MobileActions from "./mobile-actions"
 
 type ProductActionsProps = {
@@ -139,6 +140,10 @@ export default function ProductActions({
         </div>
 
         <ProductPrice product={product} variant={selectedVariant} />
+        
+        {selectedVariant && (
+          <SKUDisplay variant={selectedVariant} size="medium" className="mb-2" />
+        )}
 
         <Button
           onClick={handleAddToCart}

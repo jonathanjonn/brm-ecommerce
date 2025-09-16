@@ -1,12 +1,14 @@
 import { HttpTypes } from "@medusajs/types"
 import { Heading, Text } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import SKUDisplay from "@modules/products/components/sku-display"
 
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
 }
 
 const ProductInfo = ({ product }: ProductInfoProps) => {
+
   return (
     <div id="product-info">
       <div className="flex flex-col gap-y-4 lg:max-w-[500px] mx-auto">
@@ -25,6 +27,13 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         >
           {product.title}
         </Heading>
+
+        {/* Show SKU Display */}
+        <SKUDisplay 
+          product={product}
+          size="medium"
+          className="mb-2"
+        />
 
         <Text
           className="text-medium text-ui-fg-subtle whitespace-pre-line"

@@ -36,13 +36,18 @@ const genOtp = createStep(
 const sendWa = createStep(
   "send-wa",
   async ({ phone, otp }: { phone: string; otp: string }) => {
-    try{
-    await fetch(process.env.N8N_WHATSAPP_WEBHOOK!, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phone, otp }),
-    });
-    return new StepResponse(true);
+    try {
+      const n8nUrl = process.env.N8N_WHATSAPP_WEBHOOK_URL;
+      if (!n8nUrl) {
+        console.log(n8nUrl);
+        console.error("N8N_WHATSAPP_WEBHOOK_URL is not defined");
+        return new StepResponse(false);
+      }
+      await fetch(n8nUrl, {
+        method: "POST",
+        body: JSON.stringify({ phone, otp }),
+      });
+      return new StepResponse(true);
     } catch (error) {
       console.error("Error sending OTP to webhook:", error);
       return new StepResponse(false);

@@ -37,8 +37,7 @@ export const retrieveCustomer =
         },
         headers,
         next,
-        // Changed to no-cache untuk real-time profile updates
-        cache: "no-cache",
+        cache: "no-store",
       })
       .then(({ customer }) => customer)
       .catch(() => null)
@@ -259,4 +258,51 @@ export const updateCustomerAddress = async (
     .catch((err) => {
       return { success: false, error: err.toString() }
     })
+}
+
+export async function linkEmailPassword(
+  _currentState: unknown,
+  formData: FormData
+) {
+  const email = formData.get("email") as string
+  const password = formData.get("password") as string
+  const confirm = formData.get("confirm_password") as string
+
+  if (!email || !password || !confirm) {
+    return { success: false, error: "Email dan password wajib diisi" }
+  }
+  if (password !== confirm) {
+    return { success: false, error: "Konfirmasi password tidak cocok" }
+  }
+
+  const authHeaders = await getAuthHeaders()
+  if (!authHeaders) {
+    return { success: false, error: "Unauthorized - please login again" }
+  }
+
+  try {
+    const response = await sdk.client.fetch(`/store/auth/link/emailpass`, {
+      method: "POST",
+      headers: {
+        ...authHeaders,
+      },
+      body: { email, password },
+    })
+
+    // Invalidate customer cache after successful linking
+    const customerCacheTag = await getCacheTag("customers")
+    revalidateTag(customerCacheTag)
+
+    return {
+      success: true,
+      error: null,
+      message: "Email dan password berhasil ditautkan",
+    }
+  } catch (error: any) {
+    console.error("Link email+password error:", error)
+    return {
+      success: false,
+      error: error.message || "Gagal menautkan email dan password",
+    }
+  }
 }

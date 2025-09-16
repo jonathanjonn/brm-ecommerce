@@ -20,6 +20,23 @@ module.exports = defineConfig({
     },
   },
   modules: [
+    // File Storage Module for media uploads
+    // {
+    //   resolve: "@medusajs/medusa/file",
+    //   options: {
+    //     providers: [
+    //       {
+    //         resolve: "@medusajs/medusa/file-local",
+    //         id: "local",
+    //         options: {
+    //           backend_url: process.env.BACKEND_URL || "http://localhost:9000",
+    //         },
+    //       },
+    //     ],
+    //   },
+    // },
+    // Product Media Module (commented for now)
+    // { resolve: "./src/modules/product-media" },
     // { resolve: "./src/modules/auth_otp" },
     {
       resolve: "@medusajs/medusa/auth",

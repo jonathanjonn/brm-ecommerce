@@ -49,7 +49,7 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
     <form action={formAction} className="w-full">
       <AccountInfo
         label="Email"
-        currentInfo={`${customer.email}`}
+        currentInfo={`${customer.email ?? "-"}`}
         isSuccess={successState}
         isError={!!state.error}
         errorMessage={state.error}
@@ -62,10 +62,13 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
             name="email"
             type="email"
             autoComplete="email"
-            required
-            defaultValue={customer.email}
+            defaultValue={customer.email ?? ""}
             data-testid="email-input"
+            disabled
           />
+          <p className="text-sm text-gray-600">
+            Email tidak dapat diubah langsung. Untuk menambahkan email dan password (login alternatif), gunakan bagian "Password" di bawah untuk menautkan akun email+password ke akun OTP Anda.
+          </p>
         </div>
       </AccountInfo>
     </form>
